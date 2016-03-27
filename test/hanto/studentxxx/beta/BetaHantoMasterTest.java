@@ -99,6 +99,32 @@ public class BetaHantoMasterTest
 		assertEquals(BUTTERFLY, p.getType());
 	}
 	
+	@Test //2
+	public void bluePlacesSparrowAtOrigin() throws HantoException{
+		final MoveResult mr = game.makeMove(SPARROW, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(0,0));
+		assertEquals(OK, mr);
+		final HantoPiece p = game.getPieceAt(new HantoCoordinateImpl(0, 0));
+		assertEquals(BLUE, p.getColor());
+		assertEquals(SPARROW, p.getType());
+	}
+	
+	@Test //3
+	public void bluePlacesInitialButterflyAtWrongPlace() throws HantoException{
+		final MoveResult mr = game.makeMove(BUTTERFLY, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(0,1));
+		assertEquals(null, mr);
+	}
+	
+	@Test //4
+	public void redMovesAfterBlueCorrectly() throws HantoException{
+		final MoveResult mr = game.makeMove(BUTTERFLY, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(0,0));
+		final MoveResult mb = game.makeMove(SPARROW, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(0,1));
+		assertEquals(OK, mb);
+		final HantoPiece p = game.getPieceAt(new HantoCoordinateImpl(0,1));
+		assertEquals(RED, p.getColor());
+		assertEquals(SPARROW, p.getType());
+
+	}
+	
 	
 	
 	// Helper methods

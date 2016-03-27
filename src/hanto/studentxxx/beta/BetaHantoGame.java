@@ -49,18 +49,28 @@ public class BetaHantoGame implements HantoGame
 		if (gameOver) {
 			throw new HantoException("You cannot move after the game is finished");
 		}
-		/*if (pieceType != BUTTERFLY) {
+		
+		final HantoPlayerColor hp = ((gameTurns % 2) ==0)  ? BLUE : RED;
+		/*if (pieceType = BUTTERFLY && blueButterflyHex == null) {
 			throw new HantoException("Only Butterflies are valid in Alpha Hanto");
 		}*/
+		
+		
 		
 		final HantoCoordinateImpl to = new HantoCoordinateImpl(destination);
 		MoveResult moveResult = DRAW;
 		if (firstMove) {
-			if (to.getX() != 0 || to.getY() != 0) {
-				throw new HantoException("Blue did not move to origin");
+			try {
+				if (to.getX() != 0 || to.getY() != 0) {
+			
+					throw new HantoException("Blue did not move to origin");
+				}
+			}
+			catch (HantoException h){
+				return null;
 			}
 			firstMove = false;
-			HantoPieceImpl piece = new HantoPieceImpl(BLUE, pieceType);
+			HantoPieceImpl piece = new HantoPieceImpl(hp, pieceType);
 			grid.put(destination, piece);
 			moveResult = OK;
 			//blueButterflyHex = to;
@@ -68,6 +78,8 @@ public class BetaHantoGame implements HantoGame
 			if (!hexIsValid(to)) {
 				throw new HantoException("Cannot place a piece in that hex");
 			}
+			HantoPieceImpl piece = new HantoPieceImpl(hp, pieceType);
+			grid.put(destination, piece);
 			//redButterflyHex = to;
 			gameOver = true;
 			moveResult = OK;
@@ -97,7 +109,7 @@ public class BetaHantoGame implements HantoGame
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	private boolean hexIsValid(HantoCoordinateImpl coordinate)
 	{
 		
