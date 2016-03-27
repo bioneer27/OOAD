@@ -36,7 +36,7 @@ public class BetaHantoGame implements HantoGame
 	/*private final HantoPiece blueButterfly = new HantoPieceImpl(BLUE, BUTTERFLY);
 	private final HantoPiece redButterfly = new HantoPieceImpl(RED, BUTTERFLY);*/
 	private boolean gameOver= false;
-	private HashMap<HantoCoordinateImpl, HantoPieceImpl> grid = new HashMap<HantoCoordinateImpl, HantoPieceImpl>(100);
+	private HashMap<HantoCoordinate, HantoPieceImpl> grid = new HashMap<HantoCoordinate, HantoPieceImpl>(100);
 	private int gameTurns = 0;
 	/*
 	 * @see hanto.common.HantoGame#makeMove(hanto.common.HantoPieceType, hanto.common.HantoCoordinate, hanto.common.HantoCoordinate)
@@ -45,6 +45,7 @@ public class BetaHantoGame implements HantoGame
 	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from,
 			HantoCoordinate destination) throws HantoException
 	{
+		
 		if (gameOver) {
 			throw new HantoException("You cannot move after the game is finished");
 		}
@@ -53,11 +54,15 @@ public class BetaHantoGame implements HantoGame
 		}*/
 		
 		final HantoCoordinateImpl to = new HantoCoordinateImpl(destination);
-		
+		MoveResult moveResult = DRAW;
 		if (firstMove) {
 			if (to.getX() != 0 || to.getY() != 0) {
 				throw new HantoException("Blue did not move to origin");
 			}
+			firstMove = false;
+			HantoPieceImpl piece = new HantoPieceImpl(BLUE, pieceType);
+			grid.put(destination, piece);
+			moveResult = OK;
 			//blueButterflyHex = to;
 		} else {
 			if (!hexIsValid(to)) {
@@ -65,10 +70,10 @@ public class BetaHantoGame implements HantoGame
 			}
 			//redButterflyHex = to;
 			gameOver = true;
+			moveResult = OK;
 		}
 		
-		final MoveResult moveResult = firstMove ? OK : DRAW;
-		firstMove = false;
+		//final MoveResult moveResult = firstMove ? OK : DRAW;
 		gameTurns++;
 		return moveResult;
 	}
@@ -79,8 +84,8 @@ public class BetaHantoGame implements HantoGame
 	@Override
 	public HantoPiece getPieceAt(HantoCoordinate where)
 	{
-		// TODO Auto-generated method stub
-		return grid.get(where);
+		HantoPiece piece = grid.get(where);
+		return piece;
 	}
 
 	/*

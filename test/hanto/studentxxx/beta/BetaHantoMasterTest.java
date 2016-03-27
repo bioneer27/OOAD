@@ -16,6 +16,8 @@ import static hanto.common.HantoPlayerColor.*;
 import static org.junit.Assert.*;
 import hanto.common.*;
 import hanto.studentxxx.HantoGameFactory;
+import hanto.studentxxx.common.HantoCoordinateImpl;
+
 import org.junit.*;
 
 /**
@@ -54,6 +56,20 @@ public class BetaHantoMasterTest
 		{
 			return y;
 		}
+		
+		public int hashCode()
+		{
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + x;
+			result = prime * result + y;
+			return result;
+		}
+
+		/*
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
+		
 
 	}
 	
@@ -76,16 +92,19 @@ public class BetaHantoMasterTest
 	@Test	// 1
 	public void bluePlacesInitialButterflyAtOrigin() throws HantoException
 	{
-		final MoveResult mr = game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));
+		final MoveResult mr = game.makeMove(BUTTERFLY, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(0,0));
 		assertEquals(OK, mr);
-		final HantoPiece p = game.getPieceAt(makeCoordinate(0, 0));
+		final HantoPiece p = game.getPieceAt(new HantoCoordinateImpl(0, 0));
 		assertEquals(BLUE, p.getColor());
 		assertEquals(BUTTERFLY, p.getType());
 	}
+	
+	
 	
 	// Helper methods
 	private HantoCoordinate makeCoordinate(int x, int y)
 	{
 		return new TestHantoCoordinate(x, y);
+		
 	}
 }
