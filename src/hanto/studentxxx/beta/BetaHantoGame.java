@@ -22,6 +22,7 @@ import static hanto.common.MoveResult.BLUE_WINS;
 
 
 import java.util.HashMap;
+import java.util.Map;
 
 import hanto.common.*;
 import hanto.studentxxx.common.HantoCoordinateImpl;
@@ -39,7 +40,7 @@ public class BetaHantoGame implements HantoGame
 	/*private final HantoPiece blueButterfly = new HantoPieceImpl(BLUE, BUTTERFLY);
 	private final HantoPiece redButterfly = new HantoPieceImpl(RED, BUTTERFLY);*/
 	private boolean gameOver= false;
-	private HashMap<HantoCoordinate, HantoPieceImpl> grid = new HashMap<HantoCoordinate, HantoPieceImpl>(100);
+	private Map<HantoCoordinate, HantoPiece> grid = new HashMap<HantoCoordinate, HantoPiece>(100);
 	private int gameTurns = 0;
 	/*
 	 * @see hanto.common.HantoGame#makeMove(hanto.common.HantoPieceType, hanto.common.HantoCoordinate, hanto.common.HantoCoordinate)

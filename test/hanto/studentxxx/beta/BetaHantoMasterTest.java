@@ -34,6 +34,11 @@ public class BetaHantoMasterTest
 	{
 		private final int x, y;
 		
+		/**
+		 * constructor for creating the TestHantoCoordinate instance
+		 * @param x
+		 * @param y
+		 */
 		public TestHantoCoordinate(int x, int y)
 		{
 			this.x = x;
@@ -97,12 +102,18 @@ public class BetaHantoMasterTest
 	private static HantoGameFactory factory;
 	private HantoGame game;
 	
+	/**
+	 *Initializes a factory to use to help setup the game to test 
+	 */
 	@BeforeClass
 	public static void initializeClass()
 	{
 		factory = HantoGameFactory.getInstance();
 	}
 	
+	/**
+	 * Helper method to setup a game to play and test
+	 */
 	@Before
 	public void setup()
 	{
@@ -110,6 +121,10 @@ public class BetaHantoMasterTest
 		game = factory.makeHantoGame(HantoGameID.BETA_HANTO, BLUE);
 	}
 	
+	/**
+	 * Test that blue places initial piece at the origin
+	 * @throws HantoException
+	 */
 	@Test	// 1
 	public void bluePlacesInitialButterflyAtOrigin() throws HantoException
 	{
@@ -120,6 +135,10 @@ public class BetaHantoMasterTest
 		assertEquals(BUTTERFLY, p.getType());
 	}
 	
+	/**
+	 * Test that Blue can place a sparrow at the origin since Beta isn't bound to only using butterflies
+	 * @throws HantoException
+	 */
 	@Test //2
 	public void bluePlacesSparrowAtOrigin() throws HantoException{
 		final MoveResult mr = game.makeMove(SPARROW, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(0,0));
@@ -129,12 +148,21 @@ public class BetaHantoMasterTest
 		assertEquals(SPARROW, p.getType());
 	}
 	
+	/**
+	 * Test that an exception is thrown if the first move isn't at the origin and that the exception is caught and a 
+	 * null moveResult is returned
+	 * @throws HantoException
+	 */
 	@Test //3
 	public void bluePlacesInitialButterflyAtWrongPlace() throws HantoException{
 		final MoveResult mr = game.makeMove(BUTTERFLY, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(0,1));
 		assertEquals(null, mr);
 	}
 	
+	/**
+	 * Check that red moves after blue correctly, meaning that it is put in a valid position that is adjacent to blue
+	 * @throws HantoException
+	 */
 	@Test //4
 	public void redMovesAfterBlueCorrectly() throws HantoException{
 		final MoveResult mr = game.makeMove(BUTTERFLY, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(0,0));
@@ -145,6 +173,11 @@ public class BetaHantoMasterTest
 		assertEquals(SPARROW, p.getType());
 
 	}
+	/**
+	 * Check that red can move to multiple different places after blue moves to origin and these moves are accepted
+	 * as valid
+	 * @throws HantoException
+	 */
 	@Test // 5
 	public void redMovesAfterBlueSomewhereElse() throws HantoException{
 		final MoveResult mr = game.makeMove(BUTTERFLY, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(0,0));
@@ -156,6 +189,10 @@ public class BetaHantoMasterTest
 
 	}
 	
+	/**
+	 * Test that the methods work properly with TestHantoCoordinates as well as HantoCoordinateImpl
+	 * @throws HantoException
+	 */
 	@Test //6
 	public void bluePlacesInitialButterflyWithTestCoordinate() throws HantoException
 	{
@@ -166,6 +203,10 @@ public class BetaHantoMasterTest
 		assertEquals(BUTTERFLY, p.getType());
 	}
 	
+	/**
+	 * Check that an exception is thrown and caught if Red tries to move to an invalid position after blue moves first
+	 * @throws HantoException
+	 */
 	@Test //7
 	public void redMovesAfterBlueWrong() throws HantoException{
 		final MoveResult mr = game.makeMove(BUTTERFLY, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(0,0));
@@ -175,6 +216,11 @@ public class BetaHantoMasterTest
 		
 	}
 	
+	/**
+	 * Run a quick simulation of multiple valid moves being made to ensure that game play can proceed past the 
+	 * initial phase
+	 * @throws HantoException
+	 */
 	@Test //8
 	public void blueMovesRedMovesBlueMoves() throws HantoException{
 		final MoveResult mr = game.makeMove(BUTTERFLY, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(0,0));
@@ -186,6 +232,11 @@ public class BetaHantoMasterTest
 		assertEquals(SPARROW, p.getType());
 	}
 	
+	/**
+	 * An extension of the previous test to make sure you can extend game play
+	 * 
+	 * @throws HantoException
+	 */
 	@Test //9
 	public void blueRedBlueRedMoves() throws HantoException{
 		final MoveResult mr = game.makeMove(BUTTERFLY, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(0,0));
@@ -198,6 +249,10 @@ public class BetaHantoMasterTest
 		assertEquals(SPARROW, p.getType());
 	}
 	
+	/**
+	 * Run a full game where blue makes really stupid moves to check that a winner can be determined correctly 
+	 * @throws HantoException
+	 */
 	@Test //10
 	public void bluePlaysVeryStupidAndLosesQuickly() throws HantoException{
 		game.makeMove(BUTTERFLY, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(0,0));

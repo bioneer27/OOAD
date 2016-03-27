@@ -33,6 +33,11 @@ public class AlphaHantoTest
 	{
 		private final int x, y;
 		
+		/**
+		 * This is a constructor for making a TestHantoCoordinate
+		 * @param x 
+		 * @param y
+		 */
 		public TestHantoCoordinate(int x, int y)
 		{
 			this.x = x;
@@ -59,17 +64,28 @@ public class AlphaHantoTest
 	
 	private AlphaHantoGame game;
 	
+	/**
+	 * This is a helper function to set up the AlphaHantoGame to test 
+	 */
 	@Before
 	public void setup() {
 		game = new AlphaHantoGame();
 	}
 	
+	/**
+	 * This tests that blue moves first, and that the first move is valid
+	 * @throws HantoException
+	 */
 	@Test	// 1
 	public void blueMakesValidFirstMove() throws HantoException
 	{
 		assertEquals(OK, game.makeMove(BUTTERFLY, null, new TestHantoCoordinate(0, 0)));
 	}
 	
+	/**
+	 * this tests that Red makes a valid move after Blue moves first
+	 * @throws HantoException
+	 */
 	@Test	// 2
 	public void redMakesValidMove() throws HantoException
 	{
@@ -77,18 +93,30 @@ public class AlphaHantoTest
 		assertEquals(DRAW, game.makeMove(BUTTERFLY, null, new TestHantoCoordinate(0, 1)));
 	}
 	
+	/**
+	 * Makes sure the first move is at the origin
+	 * @throws HantoException
+	 */
 	@Test(expected = HantoException.class)	// 3
 	public void blueMovesToNonOrigin() throws HantoException
 	{
 		game.makeMove(BUTTERFLY, null, new TestHantoCoordinate(0, 1));
 	}
 	
+	/**
+	 * Make sure that blue places only the butterfly in Alpha
+	 * @throws HantoException
+	 */
 	@Test(expected = HantoException.class)	// 4
 	public void blueTriesToPlaceSparrow() throws HantoException
 	{
 		game.makeMove(SPARROW, null, new TestHantoCoordinate(0, 0));
 	}
 	
+	/**
+	 * Again, make sure only butterflies are played in Alpha
+	 * @throws HantoException
+	 */
 	@Test(expected = HantoException.class)	// 5
 	public void redTriesToPlaceCrab() throws HantoException
 	{
@@ -96,6 +124,10 @@ public class AlphaHantoTest
 		game.makeMove(CRAB, null, new TestHantoCoordinate(0, 0));
 	}
 
+	/**
+	 * Make sure red makes a valid move after Blue moves
+	 * @throws HantoException
+	 */
 	@Test(expected = HantoException.class)	// 6
 	public void redPlacesButterflyAtInvalidLocation() throws HantoException
 	{
@@ -103,6 +135,10 @@ public class AlphaHantoTest
 		game.makeMove(BUTTERFLY, null, new TestHantoCoordinate(2, 0));
 	}
 	
+	/**
+	 * Make sure you don't put two pieces in the same place
+	 * @throws HantoException
+	 */
 	@Test(expected = HantoException.class) // 7
 	public void redPlacesButterflyAtOrigin() throws HantoException
 	{
@@ -110,6 +146,10 @@ public class AlphaHantoTest
 		game.makeMove(BUTTERFLY, null, new TestHantoCoordinate(0, 0));
 	}
 	
+	/**
+	 * Verify the coordinates of the blue butterfly after it moves
+	 * @throws HantoException
+	 */
 	@Test 	// 8
 	public void blueButterflyIsAtOrginAfterMove() throws HantoException
 	{
@@ -120,6 +160,10 @@ public class AlphaHantoTest
 		assertEquals(BLUE, butterfly.getColor());
 	}
 	
+	/**
+	 * Verify the coordinates of the Red Butterfly after it moves
+	 * @throws HantoException
+	 */
 	@Test	// 9
 	public void redButterflyIsAtCorrectPlaceAfterRedMoves() throws HantoException
 	{
@@ -130,6 +174,10 @@ public class AlphaHantoTest
 		assertEquals(RED, butterfly.getColor());
 	}
 	
+	/**
+	 * Not allowed to move after the game ends
+	 * @throws HantoException
+	 */
 	@Test(expected = HantoException.class)	// 10
 	public void attemptToMoveAfterGameEnds() throws HantoException
 	{
