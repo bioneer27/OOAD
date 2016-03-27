@@ -124,6 +124,16 @@ public class BetaHantoMasterTest
 		assertEquals(SPARROW, p.getType());
 
 	}
+	@Test // 5
+	public void redMovesAfterBlueSomewhereElse() throws HantoException{
+		final MoveResult mr = game.makeMove(BUTTERFLY, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(0,0));
+		final MoveResult mb = game.makeMove(SPARROW, new HantoCoordinateImpl(0,0), new HantoCoordinateImpl(-1,1));
+		assertEquals(OK, mb);
+		final HantoPiece p = game.getPieceAt(new HantoCoordinateImpl(-1,1));
+		assertEquals(RED, p.getColor());
+		assertEquals(SPARROW, p.getType());
+
+	}
 	
 	
 	
