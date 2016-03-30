@@ -16,50 +16,51 @@ import hanto.common.HantoCoordinate;
 
 /**
  * The implementation for my version of Hanto.
+ * 
  * @version Mar 2, 2016
  */
-public class HantoCoordinateImpl implements HantoCoordinate
-{
+public class HantoCoordinateImpl implements HantoCoordinate {
 	final private int x, y;
-	
+
 	/**
 	 * The only constructor.
-	 * @param x the x-coordinate
-	 * @param y the y-coordinate
+	 * 
+	 * @param x
+	 *            the x-coordinate
+	 * @param y
+	 *            the y-coordinate
 	 */
 	public HantoCoordinateImpl(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	/**
 	 * Copy constructor that creates an instance of HantoCoordinateImpl from an
 	 * object that implements HantoCoordinate.
-	 * @param coordinate an object that implements the HantoCoordinate interface.
+	 * 
+	 * @param coordinate
+	 *            an object that implements the HantoCoordinate interface.
 	 */
-	public HantoCoordinateImpl(HantoCoordinate coordinate)
-	{
+	public HantoCoordinateImpl(HantoCoordinate coordinate) {
 		this(coordinate.getX(), coordinate.getY());
 	}
-	
+
 	@Override
-	public int getX()
-	{
+	public int getX() {
 		return x;
 	}
 
 	@Override
-	public int getY()
-	{
+	public int getY() {
 		return y;
 	}
-	
+
 	/*
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + x;
@@ -71,26 +72,21 @@ public class HantoCoordinateImpl implements HantoCoordinate
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
+	public boolean equals(Object obj) {
+		if(obj == null) {
 			return false;
 		}
-		if (!(obj instanceof HantoCoordinateImpl)) {
+		if(!(obj instanceof HantoCoordinateImpl)) {
 			return false;
 		}
 		final HantoCoordinateImpl other = (HantoCoordinateImpl) obj;
-		if (x != other.x) {
+		if(x != other.x) {
 			return false;
 		}
-		if (y != other.y) {
+		if(y != other.y) {
 			return false;
 		}
 		return true;
 	}
-
 
 }
