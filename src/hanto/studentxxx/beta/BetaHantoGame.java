@@ -87,18 +87,24 @@ public class BetaHantoGame implements HantoGame {
 			redPieces.add(destination);
 		}
 		gameTurns++;
+		if(gameTurns >= 12) {
+			gameOver = true;
+		}
 		if(hp.equals(BLUE) && pieceType.equals(BUTTERFLY)) {
 			blueButterflyHex = to;
 		} else if(pieceType.equals(BUTTERFLY)) {
 			redButterflyHex = to;
 		}
 		if(gameWonRed() && gameWonBlue()) {
+			gameOver = true;
 			return DRAW;
 		}
 		if(gameWonRed()) {
+			gameOver = true;
 			return RED_WINS;
 		}
 		if(gameWonBlue()) {
+			gameOver = true;
 			return BLUE_WINS;
 		}
 
