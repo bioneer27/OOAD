@@ -80,10 +80,7 @@ public class HantoCoordinateImpl implements HantoCoordinate {
 			return false;
 		}
 		final HantoCoordinateImpl other = (HantoCoordinateImpl) obj;
-		if(x != other.x) {
-			return false;
-		}
-		if(y != other.y) {
+		if(x != other.x || y != other.y) {
 			return false;
 		}
 		return true;

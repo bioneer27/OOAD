@@ -115,7 +115,7 @@ public class GammaHantoGame implements HantoGame {
 	 */
 	@Override
 	public HantoPiece getPieceAt(HantoCoordinate where) {
-		HantoPiece piece = grid.get(where);
+		HantoPiece piece = grid.get(new HantoCoordinateImpl(where));
 		return piece;
 	}
 
