@@ -40,6 +40,7 @@ public class GammaHantoGame implements HantoGame {
 	private boolean firstMove, gameOver;
 	private Map<HantoCoordinate, HantoPiece> grid;
 	private int gameTurns;
+	private HantoPlayerColor firstColor;
 
 	/**
 	 * Instantiates a new beta hanto game.
@@ -51,6 +52,16 @@ public class GammaHantoGame implements HantoGame {
 		gameTurns = 0;
 		redPieces = new ArrayList<HantoCoordinate>();
 		bluePieces = new ArrayList<HantoCoordinate>();
+	}
+	
+	public GammaHantoGame(HantoPlayerColor color){
+		firstMove = true;
+		gameOver = false;
+		grid = new HashMap<HantoCoordinate, HantoPiece>(100);
+		gameTurns = 0;
+		redPieces = new ArrayList<HantoCoordinate>();
+		bluePieces = new ArrayList<HantoCoordinate>();
+		firstColor = color;
 	}
 
 	/**
@@ -66,7 +77,7 @@ public class GammaHantoGame implements HantoGame {
 		if(source != null) {
 			throw new HantoException("You cannot move your pieces across the board");
 		}
-		final HantoPlayerColor hp = ((gameTurns % 2) == 0) ? BLUE : RED;
+		final HantoPlayerColor hp = currentColor();
 
 		final HantoCoordinate to = new HantoCoordinateImpl(destination);
 		if(firstMove) {
@@ -219,5 +230,29 @@ public class GammaHantoGame implements HantoGame {
 				&& grid.containsKey(new HantoCoordinateImpl(x - 1, y + 1)));
 
 	}
+	
+	private HantoPlayerColor currentColor(){
+		
+		if ((gameTurns % 2) == 0) {
+			return firstColor;
+		}
+		else {// Not the first player's turn
+			if (firstColor == HantoPlayerColor.BLUE) return HantoPlayerColor.RED;
+			if (firstColor == HantoPlayerColor.RED) return HantoPlayerColor.BLUE;
+		}
+		/* This should never get called, I feel like this is bad design*/
+		return null;
+	}
+	
+	/*
+	
+	private boolean validButterfly(HantoPieceType pieceType){
+		if (gameTurns <= 5) return true;
+		
+		if (blueButterflyHex == null && pieceType != ) return false;
+			
+		return true;
+	}
+	*/
 
 }

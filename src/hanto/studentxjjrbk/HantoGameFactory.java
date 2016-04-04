@@ -12,6 +12,7 @@ package hanto.studentxjjrbk;
 
 import hanto.common.*;
 import hanto.studentxjjrbk.beta.BetaHantoGame;
+import hanto.studentxjjrbk.gamma.GammaHantoGame;
 
 /**
  * This is a singleton class that provides a factory to create an instance of
@@ -68,6 +69,9 @@ public class HantoGameFactory {
 		case BETA_HANTO:
 			// as far as we know blue always moves first in this version of Hanto
 			game = new BetaHantoGame();
+			break;
+		case GAMMA_HANTO:
+			game = new GammaHantoGame(movesFirst);
 			break;
 		}
 		return game;
