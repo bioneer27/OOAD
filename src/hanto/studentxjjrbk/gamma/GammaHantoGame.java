@@ -74,11 +74,11 @@ public class GammaHantoGame implements HantoGame {
 		if(gameOver) {
 			throw new HantoException("You cannot move after the game is finished");
 		}
+		if (!validButterfly(pieceType)) throw new HantoException("You have to place a butterfly ");
 		if(source != null) {
 			throw new HantoException("You cannot move your pieces across the board");
 		}
 		final HantoPlayerColor hp = currentColor();
-
 		final HantoCoordinate to = new HantoCoordinateImpl(destination);
 		if(firstMove) {
 			if(to.getX() != 0 || to.getY() != 0) {
@@ -106,20 +106,7 @@ public class GammaHantoGame implements HantoGame {
 		} else if(pieceType.equals(BUTTERFLY)) {
 			redButterflyHex = to;
 		}
-		if(gameWonRed() && gameWonBlue()) {
-			gameOver = true;
-			return DRAW;
-		}
-		if(gameWonRed()) {
-			gameOver = true;
-			return RED_WINS;
-		}
-		if(gameWonBlue()) {
-			gameOver = true;
-			return BLUE_WINS;
-		}
-
-		return OK;
+		return gameResult();
 	}
 
 	/**
@@ -244,15 +231,46 @@ public class GammaHantoGame implements HantoGame {
 		return null;
 	}
 	
-	/*
 	
+	
+	/**
+	 * This checks that a butterfly is moved
+	 * @param pieceType
+	 * @return
+	 */
 	private boolean validButterfly(HantoPieceType pieceType){
 		if (gameTurns <= 5) return true;
 		
-		if (blueButterflyHex == null && pieceType != ) return false;
-			
-		return true;
+		if (blueButterflyHex != null) return true;
+		if (redButterflyHex != null) return true;		
+		
+		if (firstColor == HantoPlayerColor.BLUE){
+			if (blueButterflyHex == null && pieceType == HantoPieceType.BUTTERFLY) return true;
+		}
+		if (firstColor == HantoPlayerColor.RED){
+			if (redButterflyHex == null && pieceType == HantoPieceType.BUTTERFLY) return true;
+		}
+					
+		return false;
 	}
-	*/
+	
+	private MoveResult gameResult(){
+		if(gameWonRed() && gameWonBlue()) {
+			gameOver = true;
+			return DRAW;
+		}
+		if(gameWonRed()) {
+			gameOver = true;
+			return RED_WINS;
+		}
+		if(gameWonBlue()) {
+			gameOver = true;
+			return BLUE_WINS;
+		}
+		if (gameTurns ==12) return DRAW;
+		
+		return OK;
+	}
+	
 
 }

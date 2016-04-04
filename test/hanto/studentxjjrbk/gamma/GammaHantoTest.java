@@ -264,13 +264,77 @@ public class GammaHantoTest {
 		assertEquals(game.getPrintableBoard(), "|     | R S |\n| B S | R B |\n| R S | B S |\n");
 	}
 	
+	/**
+	 * This tests that red can move first if the factory is created with red as the first player
+	 * By the way, red shouldn't move first.  In chess, white always moves first.  Black never gets to 
+	 * move first. 
+	 * @throws HantoException
+	 */
 	@Test //14
 	public void redMovesFirst() throws HantoException{
-		game = factory.makeHantoGame(HantoGameID.GAMMA_HANTO, RED);
+		game = factory.makeHantoGame(HantoGameID.GAMMA_HANTO, RED); 
 		final MoveResult mr = game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, 0));
 		assertEquals(OK, mr);
 		final HantoPiece p = game.getPieceAt(new HantoCoordinateImpl(0, 0));
 		assertEquals(RED, p.getColor());
 		assertEquals(SPARROW, p.getType());
+	}
+	
+	@Test //15
+	public void redWinsOnLastMove()throws HantoException{
+		game.makeMove(BUTTERFLY, null, new HantoCoordinateImpl(0, 0));
+		game.makeMove(BUTTERFLY, null, new HantoCoordinateImpl(-1,1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, 1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, 1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, 1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, -1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, -1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, -2));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, -2));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, -2));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(2, 0));
+		final MoveResult mr = game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, 0));
+
+		assertEquals(RED_WINS, mr);
+		
+	}
+	@Test //16
+	public void blueWinsOnLastMove()throws HantoException{
+		game = factory.makeHantoGame(HantoGameID.GAMMA_HANTO, RED);
+		game.makeMove(BUTTERFLY, null, new HantoCoordinateImpl(0, 0));
+		game.makeMove(BUTTERFLY, null, new HantoCoordinateImpl(-1, 1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, 1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, 0));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, -1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, -1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, 2));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, 2));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, 1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(2, 0));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(2, -1));
+		final MoveResult mr = game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, 0));
+
+		assertEquals(BLUE_WINS, mr);
+		
+	}
+	
+	@Test //17
+	public void noOneWinsByTwelfthMoveSoItsADraw()throws HantoException{
+		game = factory.makeHantoGame(HantoGameID.GAMMA_HANTO, RED);
+		game.makeMove(BUTTERFLY, null, new HantoCoordinateImpl(0, 0));
+		game.makeMove(BUTTERFLY, null, new HantoCoordinateImpl(-1, 1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, 1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, 0));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, -1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, -1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, 2));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, 2));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, 1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(2, 0));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(2, -1));
+		final MoveResult mr = game.makeMove(SPARROW, null, new HantoCoordinateImpl(-2, 2));
+
+		assertEquals(DRAW, mr);
+		
 	}
 }
