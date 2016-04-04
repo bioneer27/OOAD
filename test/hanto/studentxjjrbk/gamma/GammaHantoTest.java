@@ -312,16 +312,16 @@ public class GammaHantoTest {
 	@Test //15
 	public void redWinsOnLastMove()throws HantoException{
 		game.makeMove(BUTTERFLY, null, new HantoCoordinateImpl(0, 0));
-		game.makeMove(BUTTERFLY, null, new HantoCoordinateImpl(-1,1));
+		game.makeMove(BUTTERFLY, null, new HantoCoordinateImpl(-1, 1));
 		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, 1));
-		game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, 1));
-		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, 1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, 0));
 		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, -1));
 		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, -1));
-		game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, -2));
-		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, -2));
-		game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, -2));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, 2));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, 2));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, 1));
 		game.makeMove(SPARROW, null, new HantoCoordinateImpl(2, 0));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(2, -1));
 		final MoveResult mr = game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, 0));
 
 		assertEquals(RED_WINS, mr);

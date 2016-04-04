@@ -167,6 +167,10 @@ public class GammaHantoGame implements HantoGame {
 	private boolean hexIsValid(HantoCoordinate coordinate) {
 		int x = coordinate.getX();
 		int y = coordinate.getY();
+		
+		if (grid.containsKey(new HantoCoordinateImpl(x,y))){
+			return false;
+		}
 		return (grid.containsKey(new HantoCoordinateImpl(x, y + 1))
 				|| grid.containsKey(new HantoCoordinateImpl(x + 1, y + 1))
 				|| grid.containsKey(new HantoCoordinateImpl(x + 1, y - 1))
