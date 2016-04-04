@@ -240,6 +240,8 @@ public class GammaHantoGame implements HantoGame {
 	 * @return
 	 */
 	private boolean validButterfly(HantoPieceType pieceType, HantoPlayerColor hp){
+		
+		if (!duplicateButterflies(pieceType, hp)) return false;
 		if (gameTurns <= 5) return true;		
 		if (blueButterflyHex != null && redButterflyHex != null) return true;
 		
@@ -251,6 +253,17 @@ public class GammaHantoGame implements HantoGame {
 		}
 					
 		return false;
+	}
+	
+	private boolean duplicateButterflies(HantoPieceType pieceType, HantoPlayerColor hp){
+		if (hp == HantoPlayerColor.BLUE){
+			if (blueButterflyHex != null && pieceType == HantoPieceType.BUTTERFLY) return false;
+		}
+		if (hp == HantoPlayerColor.RED){
+			if (redButterflyHex != null && pieceType == HantoPieceType.BUTTERFLY) return false;
+		}
+		
+		return true;
 	}
 	
 	private MoveResult gameResult(){
