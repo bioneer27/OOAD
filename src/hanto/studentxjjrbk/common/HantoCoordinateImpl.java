@@ -76,11 +76,11 @@ public class HantoCoordinateImpl implements HantoCoordinate {
 		if(obj == null) {
 			return false;
 		}
-		if(!(obj instanceof HantoCoordinateImpl)) {
+		if(!(obj instanceof HantoCoordinate)) {
 			return false;
 		}
-		final HantoCoordinateImpl other = (HantoCoordinateImpl) obj;
-		if(x != other.x || y != other.y) {
+		final HantoCoordinate other = (HantoCoordinate) obj;
+		if(x != other.getX() || y != other.getY()) {
 			return false;
 		}
 		return true;
