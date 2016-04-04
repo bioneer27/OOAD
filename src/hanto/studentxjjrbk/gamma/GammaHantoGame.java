@@ -91,11 +91,11 @@ public class GammaHantoGame implements HantoGame {
 			}
 		}
 		HantoPiece piece = new HantoPieceImpl(hp, pieceType);
-		grid.put(destination, piece);
+		grid.put(to, piece);
 		if(hp.equals(BLUE)) {
-			bluePieces.add(destination);
+			bluePieces.add(to);
 		} else {
-			redPieces.add(destination);
+			redPieces.add(to);
 		}
 		gameTurns++;
 		if(gameTurns >= 12) {
