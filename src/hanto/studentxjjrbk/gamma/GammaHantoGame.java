@@ -74,11 +74,12 @@ public class GammaHantoGame implements HantoGame {
 		if(gameOver) {
 			throw new HantoException("You cannot move after the game is finished");
 		}
-		if (!validButterfly(pieceType)) throw new HantoException("You have to place a butterfly ");
+		final HantoPlayerColor hp = currentColor();
+		if (!validButterfly(pieceType, hp)) throw new HantoException("You have to place a butterfly ");
 		if(source != null) {
 			throw new HantoException("You cannot move your pieces across the board");
 		}
-		final HantoPlayerColor hp = currentColor();
+
 		final HantoCoordinate to = new HantoCoordinateImpl(destination);
 		if(firstMove) {
 			if(to.getX() != 0 || to.getY() != 0) {
@@ -238,16 +239,14 @@ public class GammaHantoGame implements HantoGame {
 	 * @param pieceType
 	 * @return
 	 */
-	private boolean validButterfly(HantoPieceType pieceType){
-		if (gameTurns <= 5) return true;
+	private boolean validButterfly(HantoPieceType pieceType, HantoPlayerColor hp){
+		if (gameTurns <= 5) return true;		
+		if (blueButterflyHex != null && redButterflyHex != null) return true;
 		
-		if (blueButterflyHex != null) return true;
-		if (redButterflyHex != null) return true;		
-		
-		if (firstColor == HantoPlayerColor.BLUE){
+		if (hp == HantoPlayerColor.BLUE){
 			if (blueButterflyHex == null && pieceType == HantoPieceType.BUTTERFLY) return true;
 		}
-		if (firstColor == HantoPlayerColor.RED){
+		if (hp == HantoPlayerColor.RED){
 			if (redButterflyHex == null && pieceType == HantoPieceType.BUTTERFLY) return true;
 		}
 					
