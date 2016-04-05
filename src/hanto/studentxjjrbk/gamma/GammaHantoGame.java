@@ -340,37 +340,37 @@ public class GammaHantoGame implements HantoGame {
 			return false;
 		}
 		 if (grid.containsKey(new HantoCoordinateImpl(x, y + 1))){
-			 if (alreadyInQueue(new HantoCoordinateImpl(x, y + 1), map)){
+			 if (!alreadyInQueue(new HantoCoordinateImpl(x, y + 1), map)){
 				 map.add(new HantoCoordinateImpl(x, y +1));
 				 state = true;
 			 }
 		 }
 		if	(grid.containsKey(new HantoCoordinateImpl(x + 1, y ))){
-			if (alreadyInQueue(new HantoCoordinateImpl(x + 1, y), map)){
+			if (!alreadyInQueue(new HantoCoordinateImpl(x + 1, y), map)){
 				map.add(new HantoCoordinateImpl(x+1, y));
 				state = true;
 			}
 		}
 		if  (grid.containsKey(new HantoCoordinateImpl(x + 1, y - 1))){
-			if (alreadyInQueue(new HantoCoordinateImpl(x + 1, y - 1), map)){
+			if (!alreadyInQueue(new HantoCoordinateImpl(x + 1, y - 1), map)){
 				map.add(new HantoCoordinateImpl(x + 1, y - 1));
 				state = true;
 			}
 		}
 		if  (grid.containsKey(new HantoCoordinateImpl(x, y - 1))){
-			if (alreadyInQueue(new HantoCoordinateImpl(x, y - 1), map)){
+			if (!alreadyInQueue(new HantoCoordinateImpl(x, y - 1), map)){
 				map.add(new HantoCoordinateImpl(x, y - 1));
 				state = true;
 			}
 		}
 		if  (grid.containsKey(new HantoCoordinateImpl(x - 1, y))){
-			if (alreadyInQueue(new HantoCoordinateImpl(x - 1, y ), map)){
+			if (!alreadyInQueue(new HantoCoordinateImpl(x - 1, y ), map)){
 				map.add(new HantoCoordinateImpl(x - 1, y));
 				state = true;
 			}
 		}
 		if  (grid.containsKey(new HantoCoordinateImpl(x - 1, y + 1))){
-			if (alreadyInQueue(new HantoCoordinateImpl(x - 1, y + 1), map)){
+			if (!alreadyInQueue(new HantoCoordinateImpl(x - 1, y + 1), map)){
 				map.add(new HantoCoordinateImpl(x - 1, y + 1));
 				state = true;
 			}
