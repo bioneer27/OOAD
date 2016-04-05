@@ -13,6 +13,8 @@
 package hanto.studentxjjrbk.gamma;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
+import java.util.Queue;
+import java.util.LinkedList;
 import static hanto.common.HantoPlayerColor.BLUE;
 import static hanto.common.HantoPlayerColor.RED;
 import static hanto.common.MoveResult.OK;
@@ -65,6 +67,7 @@ public class GammaHantoGame implements HantoGame {
 	}
 
 	public static HantoCoordinate getBlueButterflyHex() {
+		Queue<HantoCoordinate> map = new Queue<HantoCoordinate>();
 		return blueButterflyHex;
 	}
 	
@@ -310,6 +313,77 @@ public class GammaHantoGame implements HantoGame {
 		if (gameTurns ==12) return DRAW;
 		
 		return OK;
+	}
+	
+	private boolean pathFinder(HantoCoordinate from, HantoCoordinate to){
+		Queue<HantoCoordinate> map = new LinkedList<HantoCoordinate>();
+		map.add(from);
+		int i;
+		while (map.peek() != null){
+			HantoCoordinate temp = map.remove();
+			if (temp == to) return true;
+			if (!hexSearchHelper(temp, map)){
+				return false;
+			}
+			
+		}
+		return false;
+	}
+	
+	private boolean hexSearchHelper(HantoCoordinate coordinate, Queue<HantoCoordinate> map) {
+		int x = coordinate.getX();
+		int y = coordinate.getY();
+		
+		boolean state = false;
+		
+		if (grid.containsKey(new HantoCoordinateImpl(x,y))){
+			return false;
+		}
+		 if (grid.containsKey(new HantoCoordinateImpl(x, y + 1))){
+			 if (alreadyInQueue(new HantoCoordinateImpl(x, y + 1), map)){
+				 map.add(new HantoCoordinateImpl(x, y +1));
+				 state = true;
+			 }
+		 }
+		if	(grid.containsKey(new HantoCoordinateImpl(x + 1, y ))){
+			if (alreadyInQueue(new HantoCoordinateImpl(x + 1, y), map)){
+				map.add(new HantoCoordinateImpl(x+1, y));
+				state = true;
+			}
+		}
+		if  (grid.containsKey(new HantoCoordinateImpl(x + 1, y - 1))){
+			if (alreadyInQueue(new HantoCoordinateImpl(x + 1, y - 1), map)){
+				map.add(new HantoCoordinateImpl(x + 1, y - 1));
+				state = true;
+			}
+		}
+		if  (grid.containsKey(new HantoCoordinateImpl(x, y - 1))){
+			if (alreadyInQueue(new HantoCoordinateImpl(x, y - 1), map)){
+				map.add(new HantoCoordinateImpl(x, y - 1));
+				state = true;
+			}
+		}
+		if  (grid.containsKey(new HantoCoordinateImpl(x - 1, y))){
+			if (alreadyInQueue(new HantoCoordinateImpl(x - 1, y ), map)){
+				map.add(new HantoCoordinateImpl(x - 1, y));
+				state = true;
+			}
+		}
+		if  (grid.containsKey(new HantoCoordinateImpl(x - 1, y + 1))){
+			if (alreadyInQueue(new HantoCoordinateImpl(x - 1, y + 1), map)){
+				map.add(new HantoCoordinateImpl(x - 1, y + 1));
+				state = true;
+			}
+		}
+		 return state;
+	}
+	
+	private boolean alreadyInQueue(HantoCoordinate coor, Queue<HantoCoordinate> map){
+		Queue<HantoCoordinate> newQueue = new LinkedList(map);
+		for (HantoCoordinate h: newQueue ){
+			if (h == coor) return false; 
+		}
+		return true;
 	}
 	
 
