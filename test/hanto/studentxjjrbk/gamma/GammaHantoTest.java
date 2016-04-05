@@ -228,7 +228,7 @@ public class GammaHantoTest {
 	 */
 	@Test // 10
 	public void bluePlaysVeryStupidAndLosesQuickly() throws HantoException {
-		game.makeMove(BUTTERFLY, null, new HantoCoordinateImpl(0, 0));
+		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));
 		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, -1));
 		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, 1));
 		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, 1));
