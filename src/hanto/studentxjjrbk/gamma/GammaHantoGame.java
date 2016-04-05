@@ -35,10 +35,10 @@ import hanto.studentxjjrbk.common.HantoPieceImpl;
  * @version Mar 26, 2016
  */
 public class GammaHantoGame implements HantoGame {
-	private HantoCoordinate blueButterflyHex, redButterflyHex;
+	private static HantoCoordinate blueButterflyHex, redButterflyHex;
 	private List<HantoCoordinate> redPieces, bluePieces;
 	private boolean firstMove, gameOver;
-	private Map<HantoCoordinate, HantoPiece> grid;
+	private static Map<HantoCoordinate, HantoPiece> grid;
 	private int gameTurns;
 	private HantoPlayerColor firstColor;
 
@@ -64,6 +64,22 @@ public class GammaHantoGame implements HantoGame {
 		firstColor = color;
 	}
 
+	public static HantoCoordinate getBlueButterflyHex() {
+		return blueButterflyHex;
+	}
+	
+	public static HantoCoordinate getRedButterflyHex() {
+		return redButterflyHex;
+	}
+	
+	public static void setBlueButterflyHex(HantoCoordinate value) {
+		blueButterflyHex = value;
+	}
+	
+	public static void setRedButterflyHex(HantoCoordinate value) {
+		redButterflyHex = value;
+	}
+	
 	/**
 	 * @see hanto.common.HantoGame#makeMove(hanto.common.HantoPieceType,
 	 * hanto.common.HantoCoordinate, hanto.common.HantoCoordinate)
@@ -75,7 +91,7 @@ public class GammaHantoGame implements HantoGame {
 			throw new HantoException("You cannot move after the game is finished");
 		}
 		final HantoPlayerColor hp = currentColor();
-		if (!validButterfly(pieceType, hp)) throw new HantoException("You have to place a butterfly ");
+		if (!validButterfly(pieceType, hp)) throw new HantoException("You have to place a butterfly");
 		if(source != null) {
 			throw new HantoException("You cannot move your pieces across the board");
 		}
@@ -116,6 +132,11 @@ public class GammaHantoGame implements HantoGame {
 	 */
 	@Override
 	public HantoPiece getPieceAt(HantoCoordinate where) {
+		HantoPiece piece = grid.get(new HantoCoordinateImpl(where));
+		return piece;
+	}
+	
+	public static HantoPiece getPiece(HantoCoordinate where) {
 		HantoPiece piece = grid.get(new HantoCoordinateImpl(where));
 		return piece;
 	}
