@@ -231,7 +231,7 @@ public class GammaHantoTest {
 		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));
 		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, -1));
 		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, 1));
-		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, 1));
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, 0));
 		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, -1));
 		game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, 1));
 		final MoveResult mr3 = game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, 0));

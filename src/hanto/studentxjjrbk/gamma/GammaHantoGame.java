@@ -172,7 +172,7 @@ public class GammaHantoGame implements HantoGame {
 			return false;
 		}
 		return (grid.containsKey(new HantoCoordinateImpl(x, y + 1))
-				|| grid.containsKey(new HantoCoordinateImpl(x + 1, y + 1))
+				|| grid.containsKey(new HantoCoordinateImpl(x + 1, y ))
 				|| grid.containsKey(new HantoCoordinateImpl(x + 1, y - 1))
 				|| grid.containsKey(new HantoCoordinateImpl(x, y - 1))
 				|| grid.containsKey(new HantoCoordinateImpl(x - 1, y))
@@ -198,7 +198,7 @@ public class GammaHantoGame implements HantoGame {
 		int x = blueButterflyHex.getX();
 		int y = blueButterflyHex.getY();
 		return (grid.containsKey(new HantoCoordinateImpl(x, y + 1))
-				&& grid.containsKey(new HantoCoordinateImpl(x + 1, y + 1))
+				&& grid.containsKey(new HantoCoordinateImpl(x + 1, y ))
 				&& grid.containsKey(new HantoCoordinateImpl(x + 1, y - 1))
 				&& grid.containsKey(new HantoCoordinateImpl(x, y - 1))
 				&& grid.containsKey(new HantoCoordinateImpl(x - 1, y))
@@ -250,10 +250,10 @@ public class GammaHantoGame implements HantoGame {
 		if (blueButterflyHex != null && redButterflyHex != null) return true;
 		
 		if (hp == HantoPlayerColor.BLUE){
-			if (blueButterflyHex == null && pieceType == HantoPieceType.BUTTERFLY) return true;
+			if ((blueButterflyHex == null && pieceType == HantoPieceType.BUTTERFLY) || blueButterflyHex != null) return true;
 		}
 		if (hp == HantoPlayerColor.RED){
-			if (redButterflyHex == null && pieceType == HantoPieceType.BUTTERFLY) return true;
+			if ((redButterflyHex == null && pieceType == HantoPieceType.BUTTERFLY) || redButterflyHex !=null) return true;
 		}
 					
 		return false;
@@ -271,15 +271,18 @@ public class GammaHantoGame implements HantoGame {
 	}
 	
 	private MoveResult gameResult(){
-		if(gameWonRed() && gameWonBlue()) {
+		
+		boolean red = gameWonRed();
+		boolean blue = gameWonBlue();
+		if(red && blue) {
 			gameOver = true;
 			return DRAW;
 		}
-		if(gameWonRed()) {
+		if(red) {
 			gameOver = true;
 			return RED_WINS;
 		}
-		if(gameWonBlue()) {
+		if(blue) {
 			gameOver = true;
 			return BLUE_WINS;
 		}
