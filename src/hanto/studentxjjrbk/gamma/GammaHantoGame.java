@@ -44,20 +44,8 @@ public class GammaHantoGame implements HantoGame {
 	private HantoPieceFactory pieceFactory;
 
 	/**
-	 * Instantiates a new beta hanto game.
+	 * Instantiates a new gamma hanto game.
 	 */
-	public GammaHantoGame() {
-		firstMove = true;
-		gameOver = false;
-		grid = new HashMap<HantoCoordinate, HantoPiece>(100);
-		gameTurns = 0;
-		redPieces = new ArrayList<HantoCoordinate>();
-		bluePieces = new ArrayList<HantoCoordinate>();
-		pieceFactory = new HantoPieceFactory();
-		blueButterflyHex = null;
-		redButterflyHex = null;
-	}
-	
 	public GammaHantoGame(HantoPlayerColor color){
 		firstMove = true;
 		gameOver = false;
@@ -270,10 +258,8 @@ public class GammaHantoGame implements HantoGame {
 		}
 		else {// Not the first player's turn
 			if (firstColor == HantoPlayerColor.BLUE) return HantoPlayerColor.RED;
-			if (firstColor == HantoPlayerColor.RED) return HantoPlayerColor.BLUE;
+			else return HantoPlayerColor.BLUE;
 		}
-		/* This should never get called, I feel like this is bad design*/
-		return null;
 	}
 	
 	
