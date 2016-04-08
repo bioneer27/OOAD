@@ -70,13 +70,12 @@ public class GammaHantoGame implements HantoGame {
 			throw new HantoException("You cannot move after the game is finished");
 		}
 		final HantoPlayerColor hp = currentColor();
-		if (!validButterfly(pieceType, hp)) throw new HantoException("You have to place a butterfly");
 		final HantoCoordinate to = new HantoCoordinateImpl(destination);
 		final HantoPieceImpl piece = pieceFactory.makePiece(new HantoPieceImpl(hp, pieceType));
 		if(source != null) {
 			// we're movin'
 			final HantoCoordinate from = new HantoCoordinateImpl(source);
-			if(piece.canMove(from, destination)) {
+			if(piece.canMove(from, destination) && pieceType == grid.get(from).getType()) {
 				grid.remove(from);
 				if(hp.equals(BLUE)) {
 					bluePieces.remove(from);
@@ -87,6 +86,7 @@ public class GammaHantoGame implements HantoGame {
 				throw new HantoException("You can't move that way");
 			}
 		} else {
+			if (!validButterfly(pieceType, hp)) throw new HantoException("You have to place a butterfly");
 			if(firstMove) {
 				if(to.getX() != 0 || to.getY() != 0) {
 					throw new HantoException("Blue did not move to origin");

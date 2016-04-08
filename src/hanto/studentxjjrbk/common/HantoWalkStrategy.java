@@ -35,12 +35,12 @@ public class HantoWalkStrategy implements HantoPieceStrategy{
 	}
 	
 	private boolean remainsConnected() {
-		if(GammaHantoGame.containsPiece(new HantoCoordinateImpl(destX, destY + 1))
-		|| GammaHantoGame.containsPiece(new HantoCoordinateImpl(destX + 1, destY ))
-		|| GammaHantoGame.containsPiece(new HantoCoordinateImpl(destX + 1, destY - 1))
-		|| GammaHantoGame.containsPiece(new HantoCoordinateImpl(destX, destY - 1))
-		|| GammaHantoGame.containsPiece(new HantoCoordinateImpl(destX - 1, destY))
-		|| GammaHantoGame.containsPiece(new HantoCoordinateImpl(destX - 1, destY + 1))) {
+		if((GammaHantoGame.containsPiece(new HantoCoordinateImpl(destX, destY + 1)) && !(destX == sourceX && destY + 1 == sourceY))
+		|| (GammaHantoGame.containsPiece(new HantoCoordinateImpl(destX + 1, destY )) && !(destX + 1 == sourceX && destY == sourceY))
+		|| (GammaHantoGame.containsPiece(new HantoCoordinateImpl(destX + 1, destY - 1)) && !(destX + 1 == sourceX && destY - 1 == sourceY))
+		|| (GammaHantoGame.containsPiece(new HantoCoordinateImpl(destX, destY - 1)) && !(destX == sourceX && destY - 1 == sourceY))
+		|| (GammaHantoGame.containsPiece(new HantoCoordinateImpl(destX - 1, destY)) && !(destX - 1 == sourceX && destY == sourceY))
+		|| (GammaHantoGame.containsPiece(new HantoCoordinateImpl(destX - 1, destY + 1)) && !(destX - 1 == sourceX && destY + 1 == sourceY))) {
 			return !disconnects();
 		}
 		return false;
@@ -76,6 +76,8 @@ public class HantoWalkStrategy implements HantoPieceStrategy{
 			}
 			alreadyVisited.add(expanding);
 		}
+		System.out.println(GammaHantoGame.numPieces());
+		System.out.println(alreadyVisited.size());
 		return alreadyVisited.size() != GammaHantoGame.numPieces() - 1;
 	}
 	
