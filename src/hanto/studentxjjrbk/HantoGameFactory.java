@@ -62,14 +62,14 @@ public class HantoGameFactory {
 	public HantoGame makeHantoGame(HantoGameID gameId, HantoPlayerColor movesFirst) {
 		HantoGame game = null;
 		switch(gameId) {
-		// this assignment is only testing beta hanto
+		// this assignment is only testing gamma hanto
 		/*case ALPHA_HANTO:
 			game = new AlphaHantoGame();
 			break;*/
-		case BETA_HANTO:
+		/*case BETA_HANTO:
 			// as far as we know blue always moves first in this version of Hanto
 			game = new BetaHantoGame();
-			break;
+			break;*/
 		case GAMMA_HANTO:
 			game = new GammaHantoGame(movesFirst);
 			break;

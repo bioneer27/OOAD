@@ -20,9 +20,10 @@ import hanto.common.*;
 public class HantoPieceImpl implements HantoPiece {
 	private final HantoPlayerColor color;
 	private final HantoPieceType type;
+	private final HantoPieceStrategy strategy;
 
 	/**
-	 * Deafault constructor
+	 * Default constructor
 	 * 
 	 * @param color
 	 *            the piece color
@@ -32,6 +33,13 @@ public class HantoPieceImpl implements HantoPiece {
 	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type) {
 		this.color = color;
 		this.type = type;
+		this.strategy = null;
+	}
+	
+	public HantoPieceImpl(HantoPiece hp, HantoPieceStrategy strategy) {
+		this.color = hp.getColor();
+		this.type = hp.getType();
+		this.strategy = strategy;
 	}
 
 	/*
@@ -48,5 +56,10 @@ public class HantoPieceImpl implements HantoPiece {
 	@Override
 	public HantoPieceType getType() {
 		return type;
+	}
+	
+	public boolean canMove(HantoCoordinate source, HantoCoordinate destination)
+			throws HantoException {
+		return strategy.canMove(source, destination, color);
 	}
 }

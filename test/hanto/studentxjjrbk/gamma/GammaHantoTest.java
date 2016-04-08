@@ -213,7 +213,7 @@ public class GammaHantoTest {
 		final MoveResult mr = game.makeMove(BUTTERFLY, null, new HantoCoordinateImpl(0, 0));
 		final MoveResult mb = game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, 1));
 		final MoveResult mr1 = game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, 1));
-		final MoveResult mb1 = game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, 0));
+		final MoveResult mb1 = game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, 0));
 		assertEquals(OK, mb1);
 		final HantoPiece p = game.getPieceAt(new HantoCoordinateImpl(1, 0));
 		assertEquals(RED, p.getColor());
@@ -348,20 +348,16 @@ public class GammaHantoTest {
 	}
 	
 	@Test //17
-	public void noOneWinsByTwelfthMoveSoItsADraw()throws HantoException{
+	public void noOneWinsByTwentiethMoveSoItsADraw()throws HantoException{
 		game = factory.makeHantoGame(HantoGameID.GAMMA_HANTO, RED);
 		game.makeMove(BUTTERFLY, null, new TestHantoCoordinate(0, 0));
-		game.makeMove(BUTTERFLY, null, new TestHantoCoordinate(-1, 1));
-		game.makeMove(SPARROW, null, new TestHantoCoordinate(0, 1));
-		game.makeMove(SPARROW, null, new TestHantoCoordinate(1, 0));
-		game.makeMove(SPARROW, null, new TestHantoCoordinate(1, -1));
-		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, -1));
-		game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, 2));
-		game.makeMove(SPARROW, null, new HantoCoordinateImpl(0, 2));
-		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, 1));
-		game.makeMove(SPARROW, null, new HantoCoordinateImpl(2, 0));
-		game.makeMove(SPARROW, null, new HantoCoordinateImpl(2, -1));
-		final MoveResult mr = game.makeMove(SPARROW, null, new HantoCoordinateImpl(-2, 2));
+		game.makeMove(BUTTERFLY, null, new TestHantoCoordinate(0, 1));
+		for(int i = 0; i < 8; i++) {
+			game.makeMove(SPARROW, null, new TestHantoCoordinate(i + 1, 0));
+			game.makeMove(SPARROW, null, new TestHantoCoordinate(i + 1, 1));
+		}
+		game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, 0));
+		final MoveResult mr = game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, 1));
 
 		assertEquals(DRAW, mr);
 		

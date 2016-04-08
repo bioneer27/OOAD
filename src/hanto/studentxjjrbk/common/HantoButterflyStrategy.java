@@ -5,13 +5,6 @@ import hanto.common.HantoException;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 
-public class HantoButterflyStrategy implements HantoPieceStrategy {
-
-
-	@Override
-	public void move(HantoCoordinate source, HantoCoordinate destination) throws HantoException {
-		// TODO Auto-generated method stub
-		
-	}
-
+public class HantoButterflyStrategy extends HantoWalkStrategy implements HantoPieceStrategy {
+ // this is just a placeholder for now as is sparrow strategy as they can both only walk
 }

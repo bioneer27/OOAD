@@ -2,7 +2,8 @@ package hanto.studentxjjrbk.common;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
+import hanto.common.HantoPlayerColor;
 
 public interface HantoPieceStrategy {
-	void move(HantoCoordinate source, HantoCoordinate destination) throws HantoException;
+	boolean canMove(HantoCoordinate source, HantoCoordinate destination, HantoPlayerColor player) throws HantoException;
 }
