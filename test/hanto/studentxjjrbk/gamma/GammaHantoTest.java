@@ -290,7 +290,7 @@ public class GammaHantoTest {
 		game.makeMove(SPARROW, null, new HantoCoordinateImpl(1, 0));
 		game.makeMove(SPARROW, null, new HantoCoordinateImpl(-1, -1));
 		
-		assertEquals(game.getPrintableBoard(), "|     | R S |\n| B S | R B |\n| R S | B S |\n");
+		assertEquals(game.getPrintableBoard(), "|     | R S |\n|     | R B |\n| R S | B S |\n");
 	}
 	
 	/**
