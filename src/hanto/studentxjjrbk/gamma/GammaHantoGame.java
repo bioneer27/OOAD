@@ -35,16 +35,31 @@ import hanto.studentxjjrbk.common.HantoPieceImpl;
  * @version Mar 26, 2016
  */
 public class GammaHantoGame implements HantoGame {
-	private static HantoCoordinate blueButterflyHex, redButterflyHex;
+	
+	/** The red butterfly hex. */
+	private static HantoCoordinate blueButterflyHex = null, redButterflyHex = null;
+	
+	/** The blue pieces. */
 	private List<HantoCoordinate> redPieces, bluePieces;
+	
+	/** The game over. */
 	private boolean firstMove, gameOver;
-	private static Map<HantoCoordinate, HantoPiece> grid;
+	
+	/** The grid. */
+	private static Map<HantoCoordinate, HantoPiece> grid = null;
+	
+	/** The game turns. */
 	private int gameTurns;
+	
+	/** The first color. */
 	private HantoPlayerColor firstColor;
+	
+	/** The piece factory. */
 	private HantoPieceFactory pieceFactory;
 
 	/**
 	 * Instantiates a new gamma hanto game.
+	 * @param color
 	 */
 	public GammaHantoGame(HantoPlayerColor color){
 		firstMove = true;
@@ -128,20 +143,39 @@ public class GammaHantoGame implements HantoGame {
 	
 	/**
 	 * Returns the piece at a particular HantoCoordinate
+	 * @param where
+	 * @return HantoPiece
 	 */
 	public static HantoPiece getPiece(HantoCoordinate where) {
 		HantoPiece piece = grid.get(new HantoCoordinateImpl(where));
 		return piece;
 	}
 	
+	/**
+	 * Gets the a piece coordinate.
+	 *
+	 * @return the a piece coordinate
+	 */
 	public static HantoCoordinate getAPieceCoordinate() {
 		return (HantoCoordinate) grid.keySet().toArray()[0];
 	}
 	
+	/**
+	 * Num pieces.
+	 *
+	 * @return the int
+	 */
 	public static int numPieces() {
 		return grid.size();
 	}
 	
+	/**
+	 * Contains piece.
+	 *
+	 * @param where
+	 *            the where
+	 * @return true, if successful
+	 */
 	public static boolean containsPiece(HantoCoordinate where) {
 		return grid.containsKey(where);
 	}
@@ -190,6 +224,15 @@ public class GammaHantoGame implements HantoGame {
 		return rtn;
 	}
 
+	/**
+	 * Hex is valid.
+	 *
+	 * @param coordinate
+	 *            the coordinate
+	 * @param color
+	 *            the color
+	 * @return true, if successful
+	 */
 	private boolean hexIsValid(HantoCoordinate coordinate, HantoPlayerColor color) {
 		int x = coordinate.getX();
 		int y = coordinate.getY();
@@ -205,8 +248,17 @@ public class GammaHantoGame implements HantoGame {
 				|| hexContainsSharedColor(new HantoCoordinateImpl(x - 1, y + 1), color));
 	}
 
+	/**
+	 * Hex contains shared color.
+	 *
+	 * @param coord
+	 *            the coord
+	 * @param color
+	 *            the color
+	 * @return true, if successful
+	 */
 	private boolean hexContainsSharedColor(HantoCoordinateImpl coord, HantoPlayerColor color) {
-		return grid.containsKey(coord) && (grid.get(coord).getColor() == color || gameTurns <= 1);
+		return grid.containsKey(coord) /*&& (grid.get(coord).getColor() == color ||  gameTurns <= 1)*/;
 	}
 	/**
 	 * This method takes the position of the blue butterfly which is held as an
@@ -234,6 +286,11 @@ public class GammaHantoGame implements HantoGame {
 
 	}
 
+	/**
+	 * Game won blue.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean gameWonBlue() {
 
 		if(redButterflyHex == null) {
@@ -251,6 +308,11 @@ public class GammaHantoGame implements HantoGame {
 
 	}
 	
+	/**
+	 * Current color.
+	 *
+	 * @return the hanto player color
+	 */
 	private HantoPlayerColor currentColor(){
 		
 		if ((gameTurns % 2) == 0) {
@@ -284,6 +346,15 @@ public class GammaHantoGame implements HantoGame {
 		return false;
 	}
 	
+	/**
+	 * Duplicate butterflies.
+	 *
+	 * @param pieceType
+	 *            the piece type
+	 * @param hp
+	 *            the hp
+	 * @return true, if successful
+	 */
 	private boolean duplicateButterflies(HantoPieceType pieceType, HantoPlayerColor hp){
 		if (hp == HantoPlayerColor.BLUE){
 			if (blueButterflyHex != null && pieceType == HantoPieceType.BUTTERFLY) return true;
@@ -295,6 +366,11 @@ public class GammaHantoGame implements HantoGame {
 		return false;
 	}
 	
+	/**
+	 * Game result.
+	 *
+	 * @return the move result
+	 */
 	private MoveResult gameResult(){
 		
 		boolean red = gameWonRed();

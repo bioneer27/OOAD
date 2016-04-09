@@ -18,8 +18,14 @@ import hanto.common.*;
  * @version Mar 2,2016
  */
 public class HantoPieceImpl implements HantoPiece {
+	
+	/** The color. */
 	private final HantoPlayerColor color;
+	
+	/** The type. */
 	private final HantoPieceType type;
+	
+	/** The strategy. */
 	private final HantoPieceStrategy strategy;
 
 	/**
@@ -33,15 +39,26 @@ public class HantoPieceImpl implements HantoPiece {
 	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type) {
 		this.color = color;
 		this.type = type;
-		this.strategy = null;
+		strategy = null;
 	}
 	
+	/**
+	 * Instantiates a new hanto piece impl.
+	 *
+	 * @param hp
+	 *            the hp
+	 * @param strategy
+	 *            the strategy
+	 */
 	public HantoPieceImpl(HantoPiece hp, HantoPieceStrategy strategy) {
-		this.color = hp.getColor();
-		this.type = hp.getType();
+		color = hp.getColor();
+		type = hp.getType();
 		this.strategy = strategy;
 	}
 
+	/* (non-Javadoc)
+	 * @see hanto.common.HantoPiece#getColor()
+	 */
 	/*
 	 * @see hanto.common.HantoPiece#getColor()
 	 */
@@ -50,6 +67,9 @@ public class HantoPieceImpl implements HantoPiece {
 		return color;
 	}
 
+	/* (non-Javadoc)
+	 * @see hanto.common.HantoPiece#getType()
+	 */
 	/*
 	 * @see hanto.common.HantoPiece#getType()
 	 */
@@ -58,6 +78,17 @@ public class HantoPieceImpl implements HantoPiece {
 		return type;
 	}
 	
+	/**
+	 * Can move.
+	 *
+	 * @param source
+	 *            the source
+	 * @param destination
+	 *            the destination
+	 * @return true, if successful
+	 * @throws HantoException
+	 *             the hanto exception
+	 */
 	public boolean canMove(HantoCoordinate source, HantoCoordinate destination)
 			throws HantoException {
 		return strategy.canMove(source, destination, color);

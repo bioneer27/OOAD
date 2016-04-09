@@ -20,6 +20,8 @@ import hanto.common.HantoCoordinate;
  * @version Mar 2, 2016
  */
 public class HantoCoordinateImpl implements HantoCoordinate {
+	
+	/** The y. */
 	final private int x, y;
 
 	/**
@@ -46,16 +48,25 @@ public class HantoCoordinateImpl implements HantoCoordinate {
 		this(coordinate.getX(), coordinate.getY());
 	}
 
+	/* (non-Javadoc)
+	 * @see hanto.common.HantoCoordinate#getX()
+	 */
 	@Override
 	public int getX() {
 		return x;
 	}
 
+	/* (non-Javadoc)
+	 * @see hanto.common.HantoCoordinate#getY()
+	 */
 	@Override
 	public int getY() {
 		return y;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	/*
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -68,6 +79,9 @@ public class HantoCoordinateImpl implements HantoCoordinate {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	/*
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */

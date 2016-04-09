@@ -1,14 +1,27 @@
+/**
+ * @author rbkillea
+ */
 package hanto.studentxjjrbk.common;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
 import hanto.common.HantoPlayerColor;
 import hanto.studentxjjrbk.gamma.GammaHantoGame;
 
+/**
+ * The Class HantoWalkStrategy.
+ */
 public class HantoWalkStrategy implements HantoPieceStrategy{
+	
+	/** The dest y. */
 	private int sourceX, sourceY, destX, destY;
+	
+	/* (non-Javadoc)
+	 * @see hanto.studentxjjrbk.common.HantoPieceStrategy#canMove(hanto.common.HantoCoordinate, hanto.common.HantoCoordinate, hanto.common.HantoPlayerColor)
+	 */
 	@Override
 	public boolean canMove(HantoCoordinate source, HantoCoordinate destination, HantoPlayerColor player)
 			throws HantoException {
@@ -34,6 +47,11 @@ public class HantoWalkStrategy implements HantoPieceStrategy{
 		return false;
 	}
 	
+	/**
+	 * Remains connected.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean remainsConnected() {
 		if((GammaHantoGame.containsPiece(new HantoCoordinateImpl(destX, destY + 1)) && !(destX == sourceX && destY + 1 == sourceY))
 		|| (GammaHantoGame.containsPiece(new HantoCoordinateImpl(destX + 1, destY )) && !(destX + 1 == sourceX && destY == sourceY))
@@ -46,11 +64,16 @@ public class HantoWalkStrategy implements HantoPieceStrategy{
 		return false;
 	}
 	
+	/**
+	 * Disconnects.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean disconnects() {
 		// do breadth first search on the grid, ignoring the source coordinates and treating the dest as existing
-		ArrayList<HantoCoordinate> alreadyVisited = new ArrayList<HantoCoordinate>();
-		ArrayList<HantoCoordinate> frontier = new ArrayList<HantoCoordinate>();
-		frontier.add(GammaHantoGame.getAPieceCoordinate());
+		List<HantoCoordinate> alreadyVisited = new ArrayList<HantoCoordinate>();
+		List<HantoCoordinate> frontier = new ArrayList<HantoCoordinate>();
+		frontier.add(new HantoCoordinateImpl(sourceX, sourceY));
 		while(!frontier.isEmpty()) {
 			HantoCoordinate expanding = frontier.get(0);
 			frontier.remove(0);
@@ -76,11 +99,18 @@ public class HantoWalkStrategy implements HantoPieceStrategy{
 			}
 			alreadyVisited.add(expanding);
 		}
-		System.out.println(GammaHantoGame.numPieces());
-		System.out.println(alreadyVisited.size());
 		return alreadyVisited.size() != GammaHantoGame.numPieces() - 1;
 	}
 	
+	/**
+	 * Contains piece.
+	 *
+	 * @param x
+	 *            the x
+	 * @param y
+	 *            the y
+	 * @return true, if successful
+	 */
 	private boolean containsPiece(int x, int y) {
 		if(x == sourceX && y == sourceY) {
 			return false;
