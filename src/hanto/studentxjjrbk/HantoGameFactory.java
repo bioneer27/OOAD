@@ -69,7 +69,7 @@ public class HantoGameFactory {
 			// as far as we know blue always moves first in this version of Hanto
 			game = new BetaHantoGame();
 			break;*/
-		case GAMMA_HANTO:
+		case DELTA_HANTO:
 			game = new GammaHantoGame(movesFirst);
 			break;
 		}
