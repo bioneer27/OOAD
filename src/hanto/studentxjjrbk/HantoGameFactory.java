@@ -11,7 +11,6 @@
 package hanto.studentxjjrbk;
 
 import hanto.common.*;
-import hanto.studentxjjrbk.beta.BetaHantoGame;
 import hanto.studentxjjrbk.gamma.GammaHantoGame;
 
 /**
