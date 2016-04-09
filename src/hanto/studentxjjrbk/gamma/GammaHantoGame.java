@@ -198,10 +198,10 @@ public class GammaHantoGame implements HantoGame {
 			return false;
 		}
 		return (hexContainsSharedColor(new HantoCoordinateImpl(x, y + 1), color)
-				|| hexContainsSharedColor(new HantoCoordinateImpl(x + 1, y ), color)
+				|| hexContainsSharedColor(new HantoCoordinateImpl(x + 1, y + 1), color)
 				|| hexContainsSharedColor(new HantoCoordinateImpl(x + 1, y - 1), color)
 				|| hexContainsSharedColor(new HantoCoordinateImpl(x, y - 1), color)
-				|| hexContainsSharedColor(new HantoCoordinateImpl(x - 1, y), color)
+				|| hexContainsSharedColor(new HantoCoordinateImpl(x - 1, y + 1), color)
 				|| hexContainsSharedColor(new HantoCoordinateImpl(x - 1, y + 1), color));
 	}
 
