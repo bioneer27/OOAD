@@ -25,16 +25,19 @@ import java.util.List;
 import java.util.Map;
 
 import hanto.common.*;
+import hanto.studentxjjrbk.common.HantoAdjacencies;
 import hanto.studentxjjrbk.common.HantoCoordinateImpl;
 import hanto.studentxjjrbk.common.HantoPieceFactory;
 import hanto.studentxjjrbk.common.HantoPieceImpl;
+import hanto.studentxjjrbk.common.HantoWalkStrategy;
+import hanto.studentxjjrbk.common.PieceInfo;
 
 /**
  * Implementation of Beta Hanto
  * 
  * @version Mar 26, 2016
  */
-public class GammaHantoGame implements HantoGame {
+public class GammaHantoGame implements HantoGame, PieceInfo {
 	
 	/** The red butterfly hex. */
 	private static HantoCoordinate blueButterflyHex = null, redButterflyHex = null;
@@ -46,7 +49,7 @@ public class GammaHantoGame implements HantoGame {
 	private boolean firstMove, gameOver;
 	
 	/** The grid. */
-	private static Map<HantoCoordinate, HantoPiece> grid = null;
+	private static Map<HantoCoordinateImpl, HantoPieceImpl> grid = null;
 	
 	/** The game turns. */
 	private int gameTurns;
@@ -56,7 +59,7 @@ public class GammaHantoGame implements HantoGame {
 	
 	/** The piece factory. */
 	private HantoPieceFactory pieceFactory;
-
+	
 	/**
 	 * Instantiates a new gamma hanto game.
 	 * @param color
@@ -64,14 +67,15 @@ public class GammaHantoGame implements HantoGame {
 	public GammaHantoGame(HantoPlayerColor color){
 		firstMove = true;
 		gameOver = false;
-		grid = new HashMap<HantoCoordinate, HantoPiece>(100);
+		grid = new HashMap<HantoCoordinateImpl, HantoPieceImpl>(100);
 		gameTurns = 0;
 		redPieces = new ArrayList<HantoCoordinate>();
 		bluePieces = new ArrayList<HantoCoordinate>();
 		firstColor = color;
-		pieceFactory = new HantoPieceFactory();
+		pieceFactory = new HantoPieceFactory(HantoGameID.GAMMA_HANTO, 5, 1, 0);
 		blueButterflyHex = null;
 		redButterflyHex = null;
+		HantoWalkStrategy.setGame(this);
 	}
 	
 	/**
@@ -85,8 +89,11 @@ public class GammaHantoGame implements HantoGame {
 			throw new HantoException("You cannot move after the game is finished");
 		}
 		final HantoPlayerColor hp = currentColor();
-		final HantoCoordinate to = new HantoCoordinateImpl(destination);
-		final HantoPieceImpl piece = pieceFactory.makePiece(new HantoPieceImpl(hp, pieceType));
+		final HantoCoordinateImpl to = new HantoCoordinateImpl(destination);
+		final HantoPieceImpl piece = pieceFactory.makePiece(new HantoPieceImpl(hp, pieceType), source == null);
+		if(piece == null) {
+			throw new HantoException("You can't place that piece type");
+		}
 		if(source != null) {
 			// we're movin'
 			final HantoCoordinate from = new HantoCoordinateImpl(source);
@@ -120,8 +127,9 @@ public class GammaHantoGame implements HantoGame {
 		}
 		grid.put(to, piece);
 		gameTurns++;
-		if(gameTurns >= 20) {
+		if(gameTurns >= 40) {
 			gameOver = true;
+			return DRAW;
 		}
 		if(hp.equals(BLUE) && pieceType.equals(BUTTERFLY)) {
 			blueButterflyHex = to;
@@ -146,8 +154,8 @@ public class GammaHantoGame implements HantoGame {
 	 * @param where
 	 * @return HantoPiece
 	 */
-	public static HantoPiece getPiece(HantoCoordinate where) {
-		HantoPiece piece = grid.get(new HantoCoordinateImpl(where));
+	public HantoPieceImpl getPiece(HantoCoordinate where) {
+		HantoPieceImpl piece = grid.get(new HantoCoordinateImpl(where));
 		return piece;
 	}
 	
@@ -156,7 +164,7 @@ public class GammaHantoGame implements HantoGame {
 	 *
 	 * @return the a piece coordinate
 	 */
-	public static HantoCoordinate getAPieceCoordinate() {
+	public HantoCoordinate getAPieceCoordinate() {
 		return (HantoCoordinate) grid.keySet().toArray()[0];
 	}
 	
@@ -165,7 +173,7 @@ public class GammaHantoGame implements HantoGame {
 	 *
 	 * @return the int
 	 */
-	public static int numPieces() {
+	public int numPieces() {
 		return grid.size();
 	}
 	
@@ -176,7 +184,7 @@ public class GammaHantoGame implements HantoGame {
 	 *            the where
 	 * @return true, if successful
 	 */
-	public static boolean containsPiece(HantoCoordinate where) {
+	public boolean containsPiece(HantoCoordinate where) {
 		return grid.containsKey(where);
 	}
 
@@ -240,12 +248,12 @@ public class GammaHantoGame implements HantoGame {
 		if (grid.containsKey(new HantoCoordinateImpl(x,y))){
 			return false;
 		}
-		return (hexContainsSharedColor(new HantoCoordinateImpl(x, y + 1), color)
-				|| hexContainsSharedColor(new HantoCoordinateImpl(x + 1, y + 1), color)
-				|| hexContainsSharedColor(new HantoCoordinateImpl(x + 1, y - 1), color)
-				|| hexContainsSharedColor(new HantoCoordinateImpl(x, y - 1), color)
-				|| hexContainsSharedColor(new HantoCoordinateImpl(x - 1, y + 1), color)
-				|| hexContainsSharedColor(new HantoCoordinateImpl(x - 1, y + 1), color));
+		for(HantoCoordinate h : HantoAdjacencies.getHantoAdjacencies()) {
+			if(hexContainsSharedColor(new HantoCoordinateImpl(h, coordinate), color)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -258,7 +266,7 @@ public class GammaHantoGame implements HantoGame {
 	 * @return true, if successful
 	 */
 	private boolean hexContainsSharedColor(HantoCoordinateImpl coord, HantoPlayerColor color) {
-		return grid.containsKey(coord) /*&& (grid.get(coord).getColor() == color ||  gameTurns <= 1)*/;
+		return grid.containsKey(coord) && (grid.get(coord).getColor() == color ||  gameTurns <= 1);
 	}
 	/**
 	 * This method takes the position of the blue butterfly which is held as an
@@ -274,15 +282,12 @@ public class GammaHantoGame implements HantoGame {
 		if(blueButterflyHex == null) {
 			return false;
 		}
-
-		int x = blueButterflyHex.getX();
-		int y = blueButterflyHex.getY();
-		return (grid.containsKey(new HantoCoordinateImpl(x, y + 1))
-				&& grid.containsKey(new HantoCoordinateImpl(x + 1, y ))
-				&& grid.containsKey(new HantoCoordinateImpl(x + 1, y - 1))
-				&& grid.containsKey(new HantoCoordinateImpl(x, y - 1))
-				&& grid.containsKey(new HantoCoordinateImpl(x - 1, y))
-				&& grid.containsKey(new HantoCoordinateImpl(x - 1, y + 1)));
+		for(HantoCoordinate h : HantoAdjacencies.getHantoAdjacencies()) {
+			if(!grid.containsKey(new HantoCoordinateImpl(h, blueButterflyHex))) {
+				return false;
+			}
+		}
+		return true;
 
 	}
 
@@ -296,15 +301,12 @@ public class GammaHantoGame implements HantoGame {
 		if(redButterflyHex == null) {
 			return false;
 		}
-
-		int x = redButterflyHex.getX();
-		int y = redButterflyHex.getY();
-		return (grid.containsKey(new HantoCoordinateImpl(x, y + 1))
-				&& grid.containsKey(new HantoCoordinateImpl(x + 1, y))
-				&& grid.containsKey(new HantoCoordinateImpl(x + 1, y - 1))
-				&& grid.containsKey(new HantoCoordinateImpl(x, y - 1))
-				&& grid.containsKey(new HantoCoordinateImpl(x - 1, y))
-				&& grid.containsKey(new HantoCoordinateImpl(x - 1, y + 1)));
+		for(HantoCoordinate h : HantoAdjacencies.getHantoAdjacencies()) {
+			if(!grid.containsKey(new HantoCoordinateImpl(h, redButterflyHex))) {
+				return false;
+			}
+		}
+		return true;
 
 	}
 	
@@ -314,12 +316,11 @@ public class GammaHantoGame implements HantoGame {
 	 * @return the hanto player color
 	 */
 	private HantoPlayerColor currentColor(){
-		
 		if ((gameTurns % 2) == 0) {
 			return firstColor;
 		}
 		else {// Not the first player's turn
-			if (firstColor == HantoPlayerColor.BLUE) return HantoPlayerColor.RED;
+			if (firstColor.equals(HantoPlayerColor.BLUE)) return HantoPlayerColor.RED;
 			else return HantoPlayerColor.BLUE;
 		}
 	}
@@ -332,10 +333,8 @@ public class GammaHantoGame implements HantoGame {
 	 * @return
 	 */
 	private boolean validButterfly(HantoPieceType pieceType, HantoPlayerColor hp) {
-		if(duplicateButterflies(pieceType, hp)) return false;
 		if (gameTurns <= 5) return true;		
 		if (blueButterflyHex != null && redButterflyHex != null) return true;
-		
 		if (hp == HantoPlayerColor.BLUE){
 			if ((blueButterflyHex == null && pieceType == HantoPieceType.BUTTERFLY) || blueButterflyHex != null) return true;
 		}
@@ -347,32 +346,11 @@ public class GammaHantoGame implements HantoGame {
 	}
 	
 	/**
-	 * Duplicate butterflies.
-	 *
-	 * @param pieceType
-	 *            the piece type
-	 * @param hp
-	 *            the hp
-	 * @return true, if successful
-	 */
-	private boolean duplicateButterflies(HantoPieceType pieceType, HantoPlayerColor hp){
-		if (hp == HantoPlayerColor.BLUE){
-			if (blueButterflyHex != null && pieceType == HantoPieceType.BUTTERFLY) return true;
-		}
-		if (hp == HantoPlayerColor.RED){
-			if (redButterflyHex != null && pieceType == HantoPieceType.BUTTERFLY) return true;
-		}
-		
-		return false;
-	}
-	
-	/**
 	 * Game result.
 	 *
 	 * @return the move result
 	 */
-	private MoveResult gameResult(){
-		
+	private MoveResult gameResult() {
 		boolean red = gameWonRed();
 		boolean blue = gameWonBlue();
 		if(red && blue) {

@@ -10,6 +10,9 @@
 
 package hanto.studentxjjrbk.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hanto.common.*;
 
 /**
@@ -91,6 +94,6 @@ public class HantoPieceImpl implements HantoPiece {
 	 */
 	public boolean canMove(HantoCoordinate source, HantoCoordinate destination)
 			throws HantoException {
-		return strategy.canMove(source, destination, color);
+		return strategy.canMove(new HantoCoordinateImpl(source), new HantoCoordinateImpl(destination), color);
 	}
 }

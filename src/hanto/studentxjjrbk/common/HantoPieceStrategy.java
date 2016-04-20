@@ -25,5 +25,5 @@ public interface HantoPieceStrategy {
 	 * @throws HantoException
 	 *             the hanto exception
 	 */
-	boolean canMove(HantoCoordinate source, HantoCoordinate destination, HantoPlayerColor player) throws HantoException;
+	boolean canMove(HantoCoordinateImpl source, HantoCoordinateImpl destination, HantoPlayerColor player) throws HantoException;
 }

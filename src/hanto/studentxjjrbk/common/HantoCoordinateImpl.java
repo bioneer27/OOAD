@@ -47,6 +47,10 @@ public class HantoCoordinateImpl implements HantoCoordinate {
 	public HantoCoordinateImpl(HantoCoordinate coordinate) {
 		this(coordinate.getX(), coordinate.getY());
 	}
+	
+	public HantoCoordinateImpl(HantoCoordinate coordinate1, HantoCoordinate coordinate2) {
+		this(coordinate1.getX() + coordinate2.getX(), coordinate1.getY() + coordinate2.getY());
+	}
 
 	/* (non-Javadoc)
 	 * @see hanto.common.HantoCoordinate#getX()

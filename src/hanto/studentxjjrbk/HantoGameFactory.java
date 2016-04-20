@@ -11,6 +11,9 @@
 package hanto.studentxjjrbk;
 
 import hanto.common.*;
+import hanto.studentxjjrbk.alpha.AlphaHantoGame;
+import hanto.studentxjjrbk.beta.BetaHantoGame;
+import hanto.studentxjjrbk.delta.DeltaHantoGame;
 import hanto.studentxjjrbk.gamma.GammaHantoGame;
 
 /**
@@ -62,15 +65,18 @@ public class HantoGameFactory {
 		HantoGame game = null;
 		switch(gameId) {
 		// this assignment is only testing gamma hanto
-		/*case ALPHA_HANTO:
+		case ALPHA_HANTO:
 			game = new AlphaHantoGame();
-			break;*/
-		/*case BETA_HANTO:
+			break;
+		case BETA_HANTO:
 			// as far as we know blue always moves first in this version of Hanto
 			game = new BetaHantoGame();
-			break;*/
-		case DELTA_HANTO:
+			break;
+		case GAMMA_HANTO:
 			game = new GammaHantoGame(movesFirst);
+			break;
+		case DELTA_HANTO:
+			game = new DeltaHantoGame(movesFirst);
 			break;
 		}
 		return game;
