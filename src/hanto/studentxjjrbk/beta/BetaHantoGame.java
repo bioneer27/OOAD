@@ -80,7 +80,7 @@ public class BetaHantoGame implements HantoGame {
 			}
 		}
 		HantoPiece piece = new HantoPieceImpl(hp, pieceType);
-		grid.put(destination, piece);
+		grid.put(to, piece);
 		if(hp.equals(BLUE)) {
 			bluePieces.add(destination);
 		} else {

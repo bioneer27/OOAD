@@ -1,4 +1,4 @@
-package hanto.studentxjjrbk.gamma;
+package hanto.acceptance;
 
 import static hanto.common.HantoPieceType.*;
 import static hanto.common.HantoPlayerColor.*;
@@ -6,7 +6,7 @@ import static hanto.common.MoveResult.*;
 import static org.junit.Assert.*;
 import org.junit.*;
 import hanto.common.*;
-import hanto.studentxjjrbk.HantoGameFactory;
+import hanto.studentgpollice.HantoGameFactory;
 
 public class GammaHantoAcceptanceTest
 {
@@ -260,30 +260,6 @@ public class GammaHantoAcceptanceTest
 				md(SPARROW, 1, -1, 1, 0), md(SPARROW, -1, 2),
 				md(SPARROW, -1, 0, -1, 1), md(SPARROW, 0, 3));
 	}
-	
-	@Test(expected=HantoException.class)
-	public void extraCreditMoveSparrowBeforeButterflyIsOnBoard() throws HantoException
-	{
-		makeMoves(md(SPARROW, 0, 0), md (BUTTERFLY, 0, 1), md(SPARROW, 0, 0, 1, 0));
-		final HantoPiece piece = game.getPieceAt(makeCoordinate(0, 0));
-		assertEquals(SPARROW, piece.getType());
-		assertEquals(BLUE, piece.getColor());
-	}
-	
-
-
-	
-	
-	
-	
-	
-
-	
-	
-	
-
-	
-	
 	
 	@Test(expected=HantoException.class)
 	public void attemptToMoveBeforeButterflyIsOnBoard() throws HantoException

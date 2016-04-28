@@ -5,6 +5,8 @@ import static hanto.common.HantoPlayerColor.*;
 import static hanto.common.MoveResult.*;
 import static org.junit.Assert.*;
 import org.junit.*;
+
+
 import hanto.common.*;
 import hanto.studentxjjrbk.HantoGameFactory;
 
@@ -250,33 +252,9 @@ public class DeltaHantoAcceptanceTest
 		assertEquals(OK, mr);
 	}
 	
-	@Test
-	public void butterflyNotPlacedByFourthMoveByFirstPlayer() throws HantoException
-	{
-		makeMoves(md(SPARROW, 0, 0), md(SPARROW, 0, 1),
-				md(SPARROW, 0, -1), md(SPARROW, 0, 2),
-				md(SPARROW, 0, -2), md(SPARROW, 0, 3),
-				md(SPARROW, 0, -3));
-	}
 	
-	@Test
-	public void butterflyNotPlacedByFourthMoveBySecondPlayer() throws HantoException
-	{
-		makeMoves(md(SPARROW, 0, 0), md(SPARROW, 0, 1),
-				md(BUTTERFLY, 0, -1), md(SPARROW, 0, 2),
-				md(SPARROW, 0, -2), md(SPARROW, 0, 3),
-				md(SPARROW, 0, -3), md(SPARROW, 0, 4));
-	}
 	
-	@Test(expected=HantoException.class)
-	public void tryToMoveAfterGameIsOver() throws HantoException
-	{
-		makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1),
-				md(SPARROW, -1, 0), md(SPARROW, 1, 1),
-				md(SPARROW, 1, -1), md(SPARROW, 0, 2),
-				md(SPARROW, 1, -1, 1, 0), md(SPARROW, -1, 2),
-				md(SPARROW, -1, 0, -1, 1), md(SPARROW, 0, 3));
-	}
+	
 	
 	@Test(expected=HantoException.class)
 	public void extraCreditMoveSparrowBeforeButterflyIsOnBoard() throws HantoException
@@ -340,4 +318,124 @@ public class DeltaHantoAcceptanceTest
 		}
 		return mr;
 	}
+	
+	
+	
+	@Test
+	public void bluePlacesCrabFirst() throws HantoException
+	{
+		final MoveResult mr = game.makeMove(CRAB, null, makeCoordinate(0, 0));
+		assertEquals(OK, mr);
+		checkPieceAt(0, 0, BLUE, CRAB);
+	}
+	
+	@Test
+	public void blueMovesCrab1() throws HantoException
+	{
+		final MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 0, -1),
+				md(CRAB, 0, 2), md(CRAB, 0, -1, -1, 0));
+		assertEquals(OK, mr);
+		checkPieceAt(-1, 0, BLUE, CRAB);
+	}
+	
+	
+	@Test(expected=HantoException.class)
+	public void moveCrabToOccupiedHex() throws HantoException
+	{
+		makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), md(CRAB, 0, -1),
+				md(CRAB, 0, 2), md(CRAB, 0, -1, 0, 0));
+	}
+	
+	
+	
+	@Test(expected=HantoException.class)
+	public void tryToUseTooManyCrabs() throws HantoException
+	{
+		makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1), 
+				md(CRAB, 0, -1), md(CRAB, 0, 2),
+				md(CRAB, 0, -2), md(CRAB, 0, 3),
+				md(CRAB, 0, -3), md(CRAB, 0, 4),
+				md(CRAB, 0, -4), md(CRAB, 0, 5),
+				md(CRAB, 0, -5));
+	}
+	
+	
+	@Test
+	public void walkTwoHexes() throws HantoException
+	{
+		MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1),
+				md(CRAB, 0, -1), md(CRAB, 0, 2),
+				md(CRAB, 0, -1, 1, 0));
+		checkPieceAt(1, 0, BLUE, CRAB);
+		assertNull(game.getPieceAt(makeCoordinate(0, -1)));
+	}
+	
+	@Test
+	public void walkThreeHexes() throws HantoException
+	{
+		MoveResult mr = makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1),
+				md(CRAB, 0, -1), md(CRAB, 0, 2),
+				md(CRAB, 0, -1, -1, 2));
+		checkPieceAt(-1, 2, BLUE, CRAB);
+		assertNull(game.getPieceAt(makeCoordinate(0, -1)));
+	}
+	
+	@Test(expected=HantoException.class)
+	public void attemptToWalkFourHexes() throws HantoException
+	{
+		makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1),
+				md(CRAB, 0, -1), md(CRAB, 0, 2),
+				md(CRAB, 0, -1, -1, 3));
+	}
+	
+	@Test(expected=HantoException.class)
+	public void walkThreeHexesAndDisconnectConfiguration() throws HantoException
+	{
+		makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1),
+				md(CRAB, 0, -1), md(CRAB, 0, 2),
+				md(CRAB, 0, -1, 3, -2));
+	}
+	
+	@Test(expected=HantoException.class)
+	public void butterflyNotPlacedByFourthMoveByFirstPlayer() throws HantoException
+	{
+		makeMoves(md(SPARROW, 0, 0), md(SPARROW, 0, 1),
+				md(SPARROW, 0, -1), md(SPARROW, 0, 2),
+				md(SPARROW, 0, -2), md(SPARROW, 0, 3),
+				md(SPARROW, 0, -3));
+	}
+	
+	@Test(expected=HantoException.class)
+	public void butterflyNotPlacedByFourthMoveBySecondPlayer() throws HantoException
+	{
+		makeMoves(md(SPARROW, 0, 0), md(SPARROW, 0, 1),
+				md(BUTTERFLY, 0, -1), md(SPARROW, 0, 2),
+				md(SPARROW, 0, -2), md(SPARROW, 0, 3),
+				md(SPARROW, 0, -3), md(SPARROW, 0, 4));
+	}
+	
+	@Test(expected=HantoException.class)
+	public void tryToMoveAfterGameIsOver() throws HantoException
+	{
+		makeMoves(md(BUTTERFLY, 0, 0), md(BUTTERFLY, 0, 1),
+				md(SPARROW, -1, 0), md(SPARROW, 1, 1),
+				md(SPARROW, 1, -1), md(SPARROW, 0, 2),
+				md(SPARROW, 1, -1, 1, 0), md(SPARROW, -1, 2),
+				md(SPARROW, -1, 0, -1, 1), md(SPARROW, 0, 3));
+	}
+	
+	@Test(expected=HantoException.class)
+	public void attemptToMoveBeforeButterflyIsOnBoard() throws HantoException
+	{
+		makeMoves(md(CRAB, 0, 0), md (BUTTERFLY, 0, 1),
+				md(CRAB, 0, 0, 1, 0));
+	}
+	
+	@Test
+	public void blueResignsOnFirstMove() throws HantoException
+	{
+		assertEquals(RED_WINS, game.makeMove(null, null, null));
+	}
+	
+	
 }
